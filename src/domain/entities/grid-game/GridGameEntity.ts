@@ -22,8 +22,8 @@ export interface IGridGameCell {
   row_condition: IRowCondition;
   column_condition: IColumnCondition;
   possible_answers: IPossibleAnswer[];
-  user_answer: IPossibleAnswer | null;
   is_answered: boolean;
+  country_asigned_index?: number;
 }
 
 export interface IRowCondition {

@@ -5,6 +5,8 @@ import { GridGameBloc } from "../../presentation/bloc/gridGameBloc";
 import useGameState from "../../presentation/bloc/gridGameState";
 import { FetchGridGameUseCase } from "../../domain/use-cases/grid-game/FetchGridGameUseCase";
 import { GridGameRepository } from "../../data/repository/GridGameRepository";
+import { FetchCountriesUseCase } from "../../domain/use-cases/grid-game/FetchCountriesUseCase";
+import { CountryRepository } from "../../data/repository/CountryRepository";
 
 const provAxiosInstance = () => {
   const userData = localStorage.getItem("userData");
@@ -30,7 +32,17 @@ const provideGridGameBloc = (store: GridGameStore) => {
   const gridGameRepository = new GridGameRepository({ axios });
   const fetchGridGameUseCase = new FetchGridGameUseCase({ gridGameRepository });
 
-  return new GridGameBloc({ store, router, fetchGridGameUseCase });
+  const countryRepository = new CountryRepository({ axios });
+  const fetchCountriesUseCase = new FetchCountriesUseCase({
+    countryRepository,
+  });
+
+  return new GridGameBloc({
+    store,
+    router,
+    fetchGridGameUseCase,
+    fetchCountriesUseCase,
+  });
 };
 
 export const dependencyLocator = {

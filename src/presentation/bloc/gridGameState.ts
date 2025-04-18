@@ -6,9 +6,11 @@ import type {
   IUserGame,
 } from "../../domain/entities/grid-game/GridGameEntity";
 import type { DataError } from "../../core/domain/DataError";
+import type { ICountry } from "../../domain/entities/country/CountryEntity";
 
 interface State {
   game: IGridGame;
+  countries: ICountry[];
   userGame: IUserGame;
   error?: string;
   serverError?: DataError;
@@ -20,6 +22,7 @@ const useGameState = defineStore("GameState", {
   state: (): State => {
     return {
       game: {} as IGridGame,
+      countries: [] as ICountry[],
       userGame: {
         countrySelected: [],
       },
@@ -33,6 +36,12 @@ const useGameState = defineStore("GameState", {
     getGameSet(): IGridGame {
       return this.game;
     },
+    getCountries(): ICountry[] {
+      return this.countries;
+    },
+    getUserGame(): IUserGame {
+      return this.userGame;
+    },
   },
   actions: {
     async initGame(): Promise<void> {
@@ -41,6 +50,7 @@ const useGameState = defineStore("GameState", {
       await gridGameBloc.initGame();
 
       this.game = gridGameBloc.store.game;
+      this.countries = gridGameBloc.store.countries;
       this.error = gridGameBloc.store.error;
     },
 
